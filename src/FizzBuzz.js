@@ -20,7 +20,7 @@ class FizzBuzz extends Component {
     render() {
         const { list } = this.state;
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+            <div className="flex flex-col items-center justify-center min-h-screen bg-red-100">
                 <h1 className="text-4xl mb-4">FizzBuzz List</h1>
                 <ul className="space-y-2">
                     {list.map((item, index) => 

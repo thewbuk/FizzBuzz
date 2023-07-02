@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
 import FizzBuzz from './FizzBuzz';
 import Login from './Login';
+import './tailwind.css'
 
 class App extends Component {
   state = {
