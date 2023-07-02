@@ -1,39 +1,20 @@
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request
 from flask_cors import CORS
-from flask_httpauth import HTTPTokenAuth
-from flask_jwt_extended import JWTManager, create_access_token
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 
 app = Flask(__name__)
 CORS(app, origins=['http://localhost:3000'])
-CORS(app, supports_credentials=True)
 app.config['JWT_SECRET_KEY'] = 'super-secret'
 jwt = JWTManager(app)
-auth = HTTPTokenAuth(scheme='Bearer')
 
 users = {
-    "test": "password123", 
+    "test": "password123",
 }
 
-@jwt.user_identity_loader
-def user_identity_lookup(username):
-    return username
-
-@jwt.user_claims_loader
-def add_claims_to_access_token(username):
-    return {'username': username}
-
-@auth.verify_token
-def verify_token(token):
-    try:
-        data = jwt.decode_token(token)
-        return data['username'] in users
-    except:
-        return False
 
 @app.route('/login', methods=['POST'])
 def login():
-
-    try: 
+    try:
         if not request.is_json:
             return jsonify({"msg": "Missing JSON in request"}), 400
 
@@ -54,17 +35,15 @@ def login():
     except Exception as e:
         print(e)
         return jsonify({"msg": "An error occurred."}), 500
-    
-    token = create_access_token(identity=username)
-    return jsonify(access_token=token), 200
+
 
 @app.route('/fizzbuzz', methods=['GET'])
-@auth.login_required
 @jwt_required()
 def fizzbuzz():
     username = get_jwt_identity()
     if username not in users:
-        abort(401, description="Invalid user")
+        return jsonify({"msg": "Invalid user"}), 401
+
     result = []
     for i in range(1, 101):
         if i % 3 == 0 and i % 5 == 0:
@@ -76,6 +55,7 @@ def fizzbuzz():
         else:
             result.append(i)
     return jsonify(result)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
