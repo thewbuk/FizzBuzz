@@ -1,6 +1,6 @@
 # FizzBuzz React Application
 
-This application is a simple implementation of the FizzBuzz algorithm using React.js, Tailwind CSS and a backend server. It fetches data from a backend and provides user authentication.
+This application is a simple implementation of the FizzBuzz algorithm using React.js, Tailwind CSS and a backend server. It fetches data from a backend and provides user authentication using Flask and JWT.
 
 # Getting Started
 
