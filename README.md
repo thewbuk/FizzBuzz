@@ -17,7 +17,7 @@ For the frontend, use:
 
     npm install
 
-For the backend (assuming you have Python and pip installed):
+For the backend (assuming you have Python and pip installed) in the src directory run:
 
     pip install -r requirements.txt
 
